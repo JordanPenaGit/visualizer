@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rhythm-orbit"
+version = "0.1.0"
+description = "Native Python desktop rhythm analysis and circular visualization"
+requires-python = ">=3.10,<3.14"
+dependencies = ["PySide6>=6.7,<7", "numpy>=1.26,<3", "librosa>=0.10.2,<0.12", "soundfile>=0.12,<1", "spotipy>=2.24,<3"]
+
+[project.optional-dependencies]
+separation = ["demucs>=4.0.1,<5"]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+rhythm-orbit = "rhythm_orbit.main:main"
+
+[tool.setuptools.packages.find]
+include = ["rhythm_orbit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
