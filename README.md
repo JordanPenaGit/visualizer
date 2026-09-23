@@ -23,27 +23,31 @@ Install **Python 3.11 or 3.12** from [python.org](https://www.python.org/downloa
 ```powershell
 git clone https://github.com/JordanPenaGit/visualizer.git
 cd visualizer
-# If this work is still in review:
-git switch codex/rhythm-orbit
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e .
 .\.venv\Scripts\python.exe -m rhythm_orbit
 ```
 
-The `git switch` step is unnecessary after the implementation is merged into `main`. You do not need to activate the virtual environment when using its Python executable directly.
+You do not need to activate the virtual environment when using its Python executable directly.
 
 ## Run on macOS / Linux
 
 ```bash
 git clone https://github.com/JordanPenaGit/visualizer.git
 cd visualizer
-git switch codex/rhythm-orbit  # while this implementation is in review
 python3 -m venv .venv
 .venv/bin/python -m pip install -e .
 .venv/bin/python -m rhythm_orbit
 ```
 
-A graphical desktop and audio output are required for normal use. Qt's Linux platform plugin may need your distribution's XCB/EGL libraries. The app also installs the `rhythm-orbit` command inside the virtual environment.
+A graphical desktop and audio output are required for normal use. Qt's Linux platform plugin may need your distribution's XCB/EGL libraries. Qt Multimedia also requires the PulseAudio client library even for headless tests. On Ubuntu/Debian, install the following before launching:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y libegl1 libopengl0 libxkbcommon0 libdbus-1-3 libpulse0
+```
+
+The app also installs the `rhythm-orbit` command inside the virtual environment.
 
 ## Use
 
@@ -111,7 +115,7 @@ python -m pip install -e ".[dev]"
 python -m pytest -q
 ```
 
-The 20 tests include a synthesized 120 BPM click track through the real analysis engine, onset timing tolerance, silence rejection, timing preservation, changing beat intervals, pickup mapping, 3:4 vs 4:8 classification, cache behavior, Spotify URL parsing, stem mixing, worker cancellation/closure, and native Qt interactions. GUI tests select the offscreen Qt platform. GitHub Actions is configured for Linux and Windows; remote CI has not run before the initial repository publish.
+The 20 tests include a synthesized 120 BPM click track through the real analysis engine, onset timing tolerance, silence rejection, timing preservation, changing beat intervals, pickup mapping, 3:4 vs 4:8 classification, cache behavior, Spotify URL parsing, stem mixing, worker cancellation/closure, and native Qt interactions. GUI tests select the offscreen Qt platform. GitHub Actions runs the suite on Linux and Windows; see the repository's Actions tab for the current results.
 
 Local verification uses Python 3.12, PySide6 6.11.2 and librosa 0.11.0. The UI has been rendered and inspected offscreen; audible output on physical hardware, Spotify requests with real credentials, and a full Demucs model download/inference are not verified by the offline test suite.
 
